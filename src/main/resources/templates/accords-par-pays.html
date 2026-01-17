@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accords du pays [[${nomPays}]]</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<h1>Accords pour le pays : <span th:text="${nomPays}">Nom Pays</span></h1>
+
+<a href="/continents">Rechercher un autre pays</a>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+    <tr>
+        <th>Intitulé</th>
+        <th>Observation</th>
+        <th>Numéro dossier</th>
+        <th>Boîte</th>
+        <th>Documents PDF</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="accord : ${accords}">
+        <td th:text="${accord.intitule}">Intitulé</td>
+        <td th:text="${accord.observation}">Observation</td>
+        <td th:text="${accord.numeroDossier}">Numéro dossier</td>
+        <td th:text="${accord.boite.numero}">Numéro boîte</td>
+        <td>
+            <ul>
+                <li th:each="doc : ${accord.documents}">
+                    <a th:href="@{'/view-pdf/' + ${doc.filename}}" th:text="${doc.filename}" target="_blank">Nom fichier PDF</a>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <a th:href="@{'/accords/edit/' + ${accord.id}}">Modifier</a> |
+            <a th:href="@{'/accords/delete/' + ${accord.id}}" onclick="return confirm('Supprimer cet accord ?');">Supprimer</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br />
+<a href="/accords/new">Ajouter un nouvel accord</a>
+</body>
+</html>

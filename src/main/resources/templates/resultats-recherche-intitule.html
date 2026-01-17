@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Résultats de la recherche</title>
+    <style>
+        .accord-box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .dropdown {
+            margin-top: 10px;
+        }
+
+        .dropdown-button {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .pdf-list {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .pdf-list a {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .pdf-list.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Résultats de la recherche par thème</h2>
+
+<div th:each="accord : ${accords}" class="accord-box">
+    <p><strong>Thème:</strong> <span th:text="${accord.intitule}"></span></p>
+    <p><strong>Observation:</strong> <span th:text="${accord.observation}"></span></p>
+
+    <div class="dropdown">
+        <button class="dropdown-button" type="button" onclick="togglePdfList(this)">
+            Voir les fichiers PDF
+        </button>
+        <div class="pdf-list">
+            <div th:if="${#lists.isEmpty(accord.documents)}">Aucun fichier disponible.</div>
+            <a th:each="doc : ${accord.documents}"
+               th:href="@{'/fichiers/' + ${doc.filename}}"
+               th:text="${doc.filename}" target="_blank">
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePdfList(button) {
+        const pdfList = button.nextElementSibling;
+        pdfList.classList.toggle('show');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Continents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .continent-list {
+            max-width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .continent-item {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .continent-item a {
+            display: block;
+            padding: 12px 18px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .continent-item a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Liste des Continents</h2>
+
+<div class="continent-list">
+    <ul>
+        <li th:each="continent : ${continents}" class="continent-item">
+            <a th:href="@{/continents/{id}/pays(id=${continent.id})}"
+               th:text="${continent.nom}">Continent</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

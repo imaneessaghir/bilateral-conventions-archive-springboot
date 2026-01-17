@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un Accord</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 40px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 20px;
+        }
+
+        .dropdown-content {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 6px;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-toggle {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: #d0d0d0;
+        }
+
+        .pdf-list a {
+            display: block;
+            margin: 5px 0;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Ajouter un Accord</h2>
+
+    <form th:action="@{/accords/save}" th:object="${accord}" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <label>Numéro de dossier :</label>
+        <input type="number" th:field="*{numeroDossier}" required />
+
+        <label>Intitulé :</label>
+        <input type="text" th:field="*{intitule}" required />
+
+        <label>Observation :</label>
+        <textarea th:field="*{observation}"></textarea>
+
+        <label>Boîte :</label>
+        <select th:field="*{boite}" required>
+            <option th:each="boite : ${boites}"
+                    th:value="${boite.id}"
+                    th:text="${boite.pays.nom + ' - Boîte ' + boite.id}">
+            </option>
+        </select>
+
+        <!-- PDF Uploads -->
+        <label>Fichiers PDF :</label>
+        <div id="fileInputs">
+            <input type="file" name="pdfFiles" />
+        </div>
+        <button type="button" onclick="addFileInput()">+ Ajouter un autre fichier</button>
+
+        <!-- Liste déroulante pour voir les PDF déjà liés -->
+        <div class="dropdown" th:if="${accord.documents != null and !accord.documents.isEmpty()}">
+            <button type="button" class="dropdown-toggle" onclick="toggleDropdown()">📂 Voir les fichiers associés</button>
+            <div class="dropdown-content pdf-list">
+                <div th:each="doc : ${accord.documents}">
+                    <a th:href="@{'/uploads/' + ${doc.filename}}" target="_blank" th:text="${doc.filename}"></a>
+                </div>
+            </div>
+        </div>
+<br>
+        <button type="submit">Enregistrer</button>
+    </form>
+</div>
+
+<script>
+    function addFileInput() {
+        let div = document.getElementById("fileInputs");
+        let input = document.createElement("input");
+        input.type = "file";
+        input.name = "pdfFiles";
+        div.appendChild(document.createElement("br"));
+        div.appendChild(input);
+    }
+
+    function toggleDropdown() {
+        const dropdown = document.querySelector('.dropdown');
+        dropdown.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

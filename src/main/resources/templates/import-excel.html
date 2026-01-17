@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Entrez les donnees</title>
+  </head>
+
+<body>
+<h2>Entrez les donnees</h2>
+<form method="post" enctype="multipart/form-data" action="/accords/import-excel">
+  <label>Importer un fichier Excel :</label>
+  <input type="file" name="file" accept=".xlsx" required>
+  <button type="submit">Importer</button>
+</form>
+</body>
+
+</html>

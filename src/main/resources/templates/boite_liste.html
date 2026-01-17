@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des boîtes</title>
+</head>
+<body>
+<h2>Liste des boîtes</h2>
+<table>
+    <tr>
+
+        <th>Pays</th>
+        <th>Numéro</th>
+        <th>Thème</th>
+    </tr>
+    <tr th:each="boite : ${boites}">
+        <td th:text="${boite.pays.nom}">Pays</td>
+        <td th:text="${boite.numero}">Numéro</td>
+        <td th:text="${boite.theme}">Thème</td>
+
+    </tr>
+</table>
+</body>
+</html>

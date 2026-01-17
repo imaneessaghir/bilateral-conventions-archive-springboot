@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recherche par pays</title>
+</head>
+<body>
+<h2>Rechercher les accords par pays</h2>
+
+<form th:action="@{/accords/chercher}" method="get">
+    <label for="pays">Choisissez un pays :</label>
+    <select name="nom" id="pays">
+        <option th:each="p : ${paysList}"
+                th:value="${p.nom}"
+                th:text="${p.nom}"></option>
+    </select>
+    <button type="submit">Rechercher</button>
+</form>
+</body>
+</html>

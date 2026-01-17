@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter une boîte</title>
+</head>
+<body>
+<h2>Ajouter une boîte</h2>
+<form th:action="@{/accords/ajouterboites}" th:object="${boite}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label>Numéro de la boite:</label>
+    <input type="number" th:field="*{numero}" required/><br/><br/>
+    <label>Thème:</label>
+    <input type="text" th:field="*{theme}" /><br/><br/>
+
+    <label>Pays associé :</label>
+    <select th:field="*{pays.id}" required>
+        <option th:each="p : ${paysList}"
+                th:value="${p.id}"
+                th:text="${p.nom}">Pays</option>
+    </select><br/><br/>
+
+    <button type="submit">Ajouter</button>
+</form>
+</body>
+</html>
